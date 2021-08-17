@@ -85,7 +85,7 @@ class RequestValidator
         $retorno = utf8_encode(ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA);
         if(in_array($this->request['rota'], ConstantesGenericasUtil::TIPO_POST, true)){
             switch($this->request['rota']){
-                case self::USUARIOS;
+                case self::USUARIOS:
                 $UsuariosService = new UsuariosService($this->request);
                 $UsuariosService->setDadosRequest($this->dadosRequest);
                 $retorno = $UsuariosService->validarPost();
@@ -96,6 +96,24 @@ class RequestValidator
         }
 
         return $retorno;
+    }
+
+    private function put()
+    {
+        $retorno = null;
+        if (in_array($this->request['rota'], ConstantesGenericasUtil::TIPO_PUT, true)) {
+            switch ($this->request['rota']) {
+                case self::USUARIOS:
+                    $UsuariosService = new UsuariosService($this->request);
+                    $UsuariosService->setDadosRequest($this->dadosRequest);
+                    $retorno = $UsuariosService->validarPut();
+                    break;
+                default:
+                    throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA);
+            }
+            return $retorno;
+        }
+        throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA);
     }
     
 }

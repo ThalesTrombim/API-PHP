@@ -30,4 +30,17 @@ class UsuariosRepository
         $stmt->execute();
         return $stmt->rowCount();
     }
+
+    public function updateUsuario($id, $dados)
+    {   
+        $consultaUpdate = 'UPDATE ' . self::TABLE . ' SET login = :login, senha = :senha WHERE id = :id';
+        $this->MySQL->getDB()->beginTransaction();
+        $stmt = $this->MySQL->getDb()->prepare($consultaUpdate);
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':login', $dados['login']);
+        $stmt->bindParam(':senha', $dados['senha']);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
+
 }
